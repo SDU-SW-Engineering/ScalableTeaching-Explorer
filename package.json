@@ -1,0 +1,113 @@
+{
+	"name": "scalableteaching",
+	"displayName": "ScalableTeaching",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.65.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onView:scalable"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "scalableteaching.signIn",
+				"title": "ScalableTeaching: sign in",
+				"enablement": "false"
+			},
+			{
+				"command": "scalableteaching.signOut",
+				"title": "Sign out"
+			},
+			{
+				"command": "scalableteaching.openCourse",
+				"title": "Open Course..."
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "scalable-explorer",
+					"title": "ScalableTeaching",
+					"icon": "media/logo.svg"
+				}
+			]
+		},
+		"views": {
+			"scalable-explorer": [
+				{
+					"id": "scalable",
+					"name": "ScalableTeaching",
+					"icon": "media/logo.svg",
+					"contextualTitle": "ScalableTeaching",
+					"when": "scalableteaching.authenticated != true"
+				},
+				{
+					"id": "scalable.courses",
+					"name": "Courses",
+					"icon": "media/logo.svg",
+					"contextualTitle": "ScalableTeaching"
+				},
+				{
+					"id": "scalable.feedback.list",
+					"name": "Feedback (1 left)",
+					"icon": "media/logo.svg",
+					"contextualTitle": "ScalableTeaching"
+				},
+				{
+					"id": "scalable.feedback.form",
+					"name": "Form",
+					"icon": "media/logo.svg"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "scalable",
+				"contents": "Your session isn't authenticated. Press the button below to sign in.\n[Sign in](command:scalableteaching.signIn)",
+				"when": "scalableteaching.authenticated != true"
+			},
+			{
+				"view": "scalable.feedback.list",
+				"contents": "You need to open a course to start giving feeckback.\n[Open Course](command:scalableteaching.openCourse)",
+				"when": "scalableteaching.openedCourse == false"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "scalableteaching.signOut"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "yarn run compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.65.0",
+		"@typescript-eslint/eslint-plugin": "^5.12.1",
+		"@typescript-eslint/parser": "^5.12.1",
+		"@vscode/test-electron": "^2.1.2",
+		"eslint": "^8.9.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.1",
+		"typescript": "^4.5.5"
+	},
+	"dependencies": {
+		"axios": "^0.26.0"
+	}
+}
