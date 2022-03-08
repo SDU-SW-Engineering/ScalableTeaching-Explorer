@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:scalable"
+		"onView:scalable",
+		"onCommand:scalableteaching.openCourse"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -43,26 +44,18 @@
 				{
 					"id": "scalable",
 					"name": "ScalableTeaching",
-					"icon": "media/logo.svg",
 					"contextualTitle": "ScalableTeaching",
 					"when": "scalableteaching.authenticated != true"
 				},
 				{
-					"id": "scalable.courses",
-					"name": "Courses",
-					"icon": "media/logo.svg",
-					"contextualTitle": "ScalableTeaching"
-				},
-				{
 					"id": "scalable.feedback.list",
-					"name": "Feedback (1 left)",
-					"icon": "media/logo.svg",
+					"name": "Feedback",
 					"contextualTitle": "ScalableTeaching"
 				},
 				{
 					"id": "scalable.feedback.form",
 					"name": "Form",
-					"icon": "media/logo.svg"
+					"when": "false"
 				}
 			]
 		},
