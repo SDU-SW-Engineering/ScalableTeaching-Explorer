@@ -110,12 +110,14 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
                 console.log("Sign in attempt: " + (tries+1));
                 try
                 {
-                    let response = await Axios.get(`http://localhost:8080/api/vs-code/retrieve-authentication?token=${authToken}`);
+                    let response = await Axios.get(`vs-code/retrieve-authentication?token=${authToken}`);
                     token = response.data.token;
                     console.log(token);
 
                     return;
-                } catch (ignored){}
+                } catch (ignored){
+                    console.log(ignored);
+                }
                 tries++;
             }
         });

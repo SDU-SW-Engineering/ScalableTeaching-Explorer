@@ -5,7 +5,7 @@ import { CourseBrowser } from '../courseBrowser';
 
 export default async function(id: number): Promise<void> {
     let coursePicker = await vscode.window.showQuickPick<CourseItem>(new Promise(async(resolve, reject) => {
-        let response = await axios.get('/vs-code/courses');
+        let response = await axios.get('courses');
         let options = response.data.map(((course : Course) => new CourseItem(course)));
         resolve(options);
     }), {
@@ -13,16 +13,8 @@ export default async function(id: number): Promise<void> {
     });
     if (coursePicker === undefined)
         return;
-    vscode.commands.executeCommand("setContext", "scalableteaching.openedCourse", coursePicker.course);
 
-
-    //let document = await vscode.workspace.openTextDocument(vscode.Uri.parse("scalable:test.java"));
-    //await vscode.window.showTextDocument(document);
-
-
-    //	vscode.window.showInformationMessage("hey " + id);
-
-    new CourseBrowser().show();
+    new CourseBrowser().show(coursePicker.course);
 }
 
 class CourseItem implements vscode.QuickPickItem {
