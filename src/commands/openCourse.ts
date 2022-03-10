@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { Course } from '../api/course';
-import { GradingTree } from '../trees/grading/gradingTree';
+import { CourseBrowser } from '../courseBrowser';
 
 export default async function(id: number): Promise<void> {
     let coursePicker = await vscode.window.showQuickPick<CourseItem>(new Promise(async(resolve, reject) => {
@@ -19,8 +19,10 @@ export default async function(id: number): Promise<void> {
     //let document = await vscode.workspace.openTextDocument(vscode.Uri.parse("scalable:test.java"));
     //await vscode.window.showTextDocument(document);
 
+
     //	vscode.window.showInformationMessage("hey " + id);
-	vscode.window.registerTreeDataProvider("scalable.feedback.list", new GradingTree);
+
+    new CourseBrowser().show();
 }
 
 class CourseItem implements vscode.QuickPickItem {
