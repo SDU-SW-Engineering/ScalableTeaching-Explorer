@@ -77,6 +77,16 @@
 					"command": "scalableteaching.signOut"
 				}
 			]
+		},
+		"configuration":{
+			"title": "ScalableTeaching",
+			"properties": {
+				"server": {
+					"type": "string",
+					"default": "",
+					"description": "Specifies the API the extension should use to query and authenticate."
+				}
+			}
 		}
 	},
 	"scripts": {

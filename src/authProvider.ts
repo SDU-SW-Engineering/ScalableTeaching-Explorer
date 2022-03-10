@@ -68,25 +68,32 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
         return token ? [new ScalableTeachingPatSession(token)] : [];
     }
 
+    async isAuthenticated() : Promise<boolean>
+    {
+        return (await this.getSessions([])).length > 0;
+    }
+
     async createSession(scopes: readonly string[]): Promise<AuthenticationSession> {
         this.ensureInitialized();
 
         let token = await this.signInThroughBrowser();
   
         if (token === null)
-            throw new Error("Fuck");
+            throw new Error("Failed");
 
         await this.secretStorage.store(ScalableTeachingAuthenticationProvider.secretKey, token);
         vscode.window.showInformationMessage("Authenticated.");
+        vscode.commands.executeCommand('setContext', 'scalableteaching.authenticated', true);
 
         return new ScalableTeachingPatSession(token);
     }
 
     async removeSession(sessionId: string): Promise<void> {
+        vscode.commands.executeCommand('setContext', 'scalableteaching.authenticated', false);
         await this.secretStorage.delete(ScalableTeachingAuthenticationProvider.secretKey);
     }
 
-    async signInThroughBrowser() : Promise<string | null>
+    private async signInThroughBrowser() : Promise<string | null>
     {
         let token : null | string = null;
         await window.withProgress({
@@ -103,7 +110,7 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
                 console.log("Sign in attempt: " + (tries+1));
                 try
                 {
-                    let response = await Axios.get(`http://localhost:8080/vs-code/retrieve-authentication?token=${authToken}`);
+                    let response = await Axios.get(`http://localhost:8080/api/vs-code/retrieve-authentication?token=${authToken}`);
                     token = response.data.token;
                     console.log(token);
 
