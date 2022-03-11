@@ -7,6 +7,7 @@ import { DocumentViewer } from './documentViewer';
 import { ScalableTeachingAuthenticationProvider } from './authProvider';
 import signOut from './commands/signOut';
 import axios from 'axios';
+import openProject from './commands/openProject';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -18,6 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	);
 
 	vscode.commands.executeCommand('setContext', 'scalableteaching.authenticated', await authenticationProvider.isAuthenticated());
+	vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', false);
 
 
 	vscode.window.registerFileDecorationProvider(new FD);
@@ -63,6 +65,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	//view.title = "Updated!";*/
 
 	vscode.commands.registerCommand('scalableteaching.openCourse', openCourse);
+	vscode.commands.registerCommand('scalableteaching.openProject', openProject);
 
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));

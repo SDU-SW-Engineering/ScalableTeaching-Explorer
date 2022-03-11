@@ -28,6 +28,10 @@
 			{
 				"command": "scalableteaching.openCourse",
 				"title": "Open Course..."
+			},
+			{
+				"command": "scalabeteaching.openProejct",
+				"title": "Open Project..."
 			}
 		],
 		"viewsContainers": {
@@ -48,14 +52,19 @@
 					"when": "scalableteaching.authenticated != true"
 				},
 				{
+					"id": "scalable.project.files",
+					"name": "Grading Scheme",
+					"when": "scalableteaching.openedProject != false"
+				},
+				{
+					"id": "scalable.project.view",
+					"name": "Project",
+					"when": "scalableteaching.openedProject != false"
+				},
+				{
 					"id": "scalable.feedback.list",
 					"name": "Feedback",
 					"contextualTitle": "ScalableTeaching"
-				},
-				{
-					"id": "scalable.feedback.form",
-					"name": "Form",
-					"when": "false"
 				}
 			]
 		},

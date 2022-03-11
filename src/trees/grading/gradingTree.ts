@@ -12,18 +12,20 @@ export class GradingTree implements vscode.TreeDataProvider<TaskItem | ProjectIt
     }
 
     getTreeItem(element: TaskItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
-
+       
+        
         
         return element;
     }
+
+
     getChildren(element?: TaskItem | ProjectItem): vscode.ProviderResult<TaskItem[] | ProjectItem[]> {
        if (element === undefined)
             return this.tasks.map(t => new TaskItem(t));
         if (element instanceof ProjectItem)
             return [];
             
-        let projects = element.task.projects as Project[];
-        return projects.map(p => new ProjectItem(p));
+        return element.task.projects.map(p => new ProjectItem(p));
     }
 }
 
@@ -43,6 +45,15 @@ class ProjectItem extends vscode.TreeItem {
             label: project.repo_name,
         }, vscode.TreeItemCollapsibleState.None);
         this.resourceUri = vscode.Uri.parse("/aUserHere");
+        this.command = {
+            command: "scalableteaching.openProject",
+            title: "Diller",
+            arguments: [project.id],
+        };
+        let test : vscode.ThemeIcon = new vscode.ThemeIcon("account");
+        this.iconPath = test;
+
+        
 
     }
     /*this.command = {

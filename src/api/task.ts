@@ -1,4 +1,4 @@
-import { Project } from "../views/tasks/project";
+import { Project } from './project';
 
 export interface Task {
     id: number,
