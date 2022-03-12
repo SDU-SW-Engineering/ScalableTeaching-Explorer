@@ -8,6 +8,7 @@ import { ScalableTeachingAuthenticationProvider } from './authProvider';
 import signOut from './commands/signOut';
 import axios from 'axios';
 import openProject from './commands/openProject';
+import server from './configuration/server';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -29,7 +30,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 
 	axios.interceptors.request.use(async (request) => {
-		const serverName = serverConfiguration();
+		const serverName = server();
 		if (serverName === null) {
 			vscode.window.showErrorMessage("Server not setup. Please verify that the address in settings, is correct for your ScalableTeaching instace.");
 			throw new axios.Cancel("Server not configured");
@@ -71,21 +72,6 @@ export async function activate(context: vscode.ExtensionContext) {
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));
 
 	context.subscriptions.push(signInCommand);
-}
-
-
-function serverConfiguration(): null | URL {
-	let server = vscode.workspace.getConfiguration().get<string>('server');
-	if (server === undefined)
-		return null;
-
-	try {
-		return new URL(server);
-
-	}
-	catch (e) {
-		return null;
-	}
 }
 
 

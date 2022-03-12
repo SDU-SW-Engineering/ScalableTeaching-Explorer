@@ -4,6 +4,7 @@ import { env } from "process";
 import Axios from 'axios';
 import { authentication, AuthenticationProvider, AuthenticationProviderAuthenticationSessionsChangeEvent, AuthenticationSession, Disposable, Event, EventEmitter, ProgressLocation, SecretStorage, window } from "vscode";
 import * as vscode from 'vscode';
+import server from "./configuration/server";
 
 export class ScalableTeachingAuthenticationProvider implements AuthenticationProvider, Disposable {
     static id = `ScalableTeachingPATH`;
@@ -78,8 +79,10 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
 
         let token = await this.signInThroughBrowser();
   
-        if (token === null)
+        if (token === null){
+            window.showErrorMessage("Failed to sign you in, please try again.");
             throw new Error("Failed");
+        }
 
         await this.secretStorage.store(ScalableTeachingAuthenticationProvider.secretKey, token);
         vscode.window.showInformationMessage("Authenticated.");
@@ -102,7 +105,14 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
             title: "Attempting to sign you in"
         }, async () => {
             let authToken = randomBytes(32).toString("hex");
-            vscode.env.openExternal(vscode.Uri.parse(`http://localhost:8080/vs-code/authenticate?token=${authToken}`));
+            let serverConfig = server();
+            if (serverConfig === null)
+            {
+                window.showErrorMessage("Please configure the server property in preferences.");
+                return null;
+            }
+
+            vscode.env.openExternal(vscode.Uri.parse(serverConfig.origin + `/vs-code/authenticate?token=${authToken}`));
             let tries = 0;
             while (tries < 3)
             {
@@ -110,7 +120,7 @@ export class ScalableTeachingAuthenticationProvider implements AuthenticationPro
                 console.log("Sign in attempt: " + (tries+1));
                 try
                 {
-                    let response = await Axios.get(`vs-code/retrieve-authentication?token=${authToken}`);
+                    let response = await Axios.get(`retrieve-authentication?token=${authToken}`);
                     token = response.data.token;
                     console.log(token);
 
