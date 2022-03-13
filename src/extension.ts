@@ -9,6 +9,7 @@ import signOut from './commands/signOut';
 import axios from 'axios';
 import openProject from './commands/openProject';
 import server from './configuration/server';
+import openFile from './commands/openFile';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -26,7 +27,6 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerFileDecorationProvider(new FD);
 
 	vscode.workspace.registerTextDocumentContentProvider("scalable", new DocumentProvider);
-	const documentViewer = new DocumentViewer();
 
 
 	axios.interceptors.request.use(async (request) => {
@@ -57,7 +57,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
 
 
-	documentViewer.start();
 
 
 	/*let view = vscode.window.createTreeView('scalable.courses', {
@@ -67,6 +66,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('scalableteaching.openCourse', openCourse);
 	vscode.commands.registerCommand('scalableteaching.openProject', openProject);
+	vscode.commands.registerCommand('scalableteaching.openFile', openFile);
 
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));

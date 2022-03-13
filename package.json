@@ -30,8 +30,12 @@
 				"title": "Open Course..."
 			},
 			{
-				"command": "scalabeteaching.openProejct",
+				"command": "scalabeteaching.openProject",
 				"title": "Open Project..."
+			},
+			{
+				"command": "scalabeteaching.openFile",
+				"title": "Open File..."
 			}
 		],
 		"viewsContainers": {
