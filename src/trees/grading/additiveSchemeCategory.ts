@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import Subtask from '../../grading/subtask';
 
-export class SchemeCategory extends vscode.TreeItem
+export class AdditiveSchemeCategory extends vscode.TreeItem
 {
     public constructor(public subtask : Subtask)
     {

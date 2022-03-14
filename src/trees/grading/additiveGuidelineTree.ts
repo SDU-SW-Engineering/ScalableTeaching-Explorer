@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
 import GradingScheme from '../../grading/gradingScheme';
-import { Guideline } from './guideline';
-import { ManualEntry } from './manualEntry';
-import { SchemeCategory } from './schemeCategory';
+import { AdditiveGuideline } from './additiveGuideline';
+import { AdditiveSchemeCategory } from './additiveSchemeCategory';
 
 export class AdditiveGuidelineTree implements vscode.TreeDataProvider<vscode.TreeItem> {
 
@@ -25,9 +24,9 @@ export class AdditiveGuidelineTree implements vscode.TreeDataProvider<vscode.Tre
 
     getChildren(element?: vscode.TreeItem): vscode.ProviderResult<vscode.TreeItem[]> {
         if (element === undefined)
-            return this.schema.subtasks.map(s => new SchemeCategory(s));
-        if (element instanceof SchemeCategory)
-            return [...element.subtask.guides.map(guide => new Guideline(guide))];
+            return this.schema.subtasks.map(s => new AdditiveSchemeCategory(s));
+        if (element instanceof AdditiveSchemeCategory)
+            return [...element.subtask.guides.map(guide => new AdditiveGuideline(guide))];
         
         return [];
     }

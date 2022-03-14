@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import Subtask from '../../grading/subtask';
 import SubtaskGuide from '../../grading/subtaskGuide';
 
-export class Guideline extends vscode.TreeItem
+export class AdditiveGuideline extends vscode.TreeItem
 {
     public constructor(public guide : SubtaskGuide)
     {

@@ -6,9 +6,9 @@ import GradingScheme from '../grading/gradingScheme';
 import Subtask from '../grading/subtask';
 import SubtaskGuide from '../grading/subtaskGuide';
 import { FileExplorer } from '../trees/fileExplorer';
-import { Guideline } from '../trees/grading/guideline';
+import { Guideline } from '../trees/grading/selectiveGuideline';
 import { SelectiveGuidelineTree } from '../trees/grading/selectiveGuidelineTree';
-import { ManualEntry } from '../trees/grading/manualEntry';
+import { ManualEntry } from '../trees/grading/selectiveManualEntry';
 import { AdditiveGuidelineTree } from '../trees/grading/additiveGuidelineTree';
 
 export default function(project : Project, courseId : number)
@@ -39,10 +39,14 @@ export default function(project : Project, courseId : number)
             subtask1, subtask2
         ]);
 
-        let gradingTree = new AdditiveGuidelineTree(scheme);
+        let gradingTree =  new AdditiveGuidelineTree(scheme);// new AdditiveGuidelineTree(scheme);
+
+
         let gradingView = vscode.window.createTreeView('scalable.project.grading', {
             treeDataProvider: gradingTree
         });
+
+
         gradingView.onDidChangeSelection(async e => {
             let selected = e.selection[0];
 
