@@ -56,7 +56,7 @@
 					"when": "scalableteaching.authenticated != true"
 				},
 				{
-					"id": "scalable.project.files",
+					"id": "scalable.project.grading",
 					"name": "Grading Scheme",
 					"when": "scalableteaching.openedProject != false"
 				},

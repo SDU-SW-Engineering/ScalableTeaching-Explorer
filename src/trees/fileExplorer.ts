@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import { Event, ProviderResult, TreeDataProvider, TreeItem, TreeView } from "vscode";
-import { Directory as ApiDirectory } from "../../api/directory";
-import { Project } from "../../api/project";
-import { File as ApiFile } from "../../api/file";
+import { Directory as ApiDirectory } from "../api/directory";
+import { Project } from "../api/project";
+import { File as ApiFile } from "../api/file";
 
 export class FileExplorer implements TreeDataProvider<File | Directory>
 {

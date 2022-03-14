@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { GradingTree } from './trees/grading/gradingTree';
+import { TaskTree } from './trees/taskTree';
 import { DocumentProvider } from './documentProvider';
 import openCourse from './commands/openCourse';
 import signIn from './commands/signIn';
@@ -24,7 +24,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', false);
 
 
-	vscode.window.registerFileDecorationProvider(new FD);
+	vscode.window.registerFileDecorationProvider(new SelectedGrade);
 
 	vscode.workspace.registerTextDocumentContentProvider("scalable", new DocumentProvider);
 
@@ -83,14 +83,13 @@ export function deactivate() {
 }
 
 
-class FD implements vscode.FileDecorationProvider {
+class SelectedGrade implements vscode.FileDecorationProvider {
 	onDidChangeFileDecorations?: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined;
 	provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
-		const showCountFor = "/aUserHere";
+		const showCountFor = "/selectedGrade";
 		if (uri.path === showCountFor) {
 			return {
 				color: new vscode.ThemeColor("gitDecoration.addedResourceForeground"),
-				tooltip: "User count"
 			};
 		}
 	}

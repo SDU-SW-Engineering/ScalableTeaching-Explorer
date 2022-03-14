@@ -2,7 +2,14 @@ import axios from 'axios';
 import * as vscode from 'vscode';
 import { Directory } from '../api/directory';
 import { Project } from '../api/project';
-import { FileExplorer } from '../trees/grading/fileExplorer';
+import GradingScheme from '../grading/gradingScheme';
+import Subtask from '../grading/subtask';
+import SubtaskGuide from '../grading/subtaskGuide';
+import { FileExplorer } from '../trees/fileExplorer';
+import { Guideline } from '../trees/grading/guideline';
+import { SelectiveGuidelineTree } from '../trees/grading/selectiveGuidelineTree';
+import { ManualEntry } from '../trees/grading/manualEntry';
+import { AdditiveGuidelineTree } from '../trees/grading/additiveGuidelineTree';
 
 export default function(project : Project, courseId : number)
 {
@@ -18,6 +25,51 @@ export default function(project : Project, courseId : number)
             treeDataProvider: new FileExplorer(project, response.data, courseId)
         });
         projectView.title = `Project: ${project.repo_name}`;
+
+        let subtask1 = new Subtask("Syntax", 30);
+        subtask1.addGuide("Bad", 0);
+        subtask1.addGuide("Okay", 10);
+        subtask1.addGuide("Good", 30);
+        let subtask2 = new Subtask("Logic", 50);
+        subtask2.addGuide("Bad", 0);
+        subtask2.addGuide("Okay", 25);
+        subtask2.addGuide("Good", 50);
+
+        let scheme = new GradingScheme([
+            subtask1, subtask2
+        ]);
+
+        let gradingTree = new AdditiveGuidelineTree(scheme);
+        let gradingView = vscode.window.createTreeView('scalable.project.grading', {
+            treeDataProvider: gradingTree
+        });
+        gradingView.onDidChangeSelection(async e => {
+            let selected = e.selection[0];
+
+            if (selected instanceof Guideline)
+                selected.guide.select();
+            if (selected instanceof ManualEntry)
+            {
+                let pointsGiven = await vscode.window.showInputBox({
+                    prompt: `Enter points given (between 0-${selected.subTask.maxPoints})`
+                });
+                if (pointsGiven === undefined)
+                    return false;
+                let intPointsGiven = parseInt(pointsGiven);
+                if (isNaN(intPointsGiven) || intPointsGiven < 0 || intPointsGiven > selected.subTask.maxPoints){
+                    vscode.window.showErrorMessage("Please enter a valid number.");
+                    return false;
+                }
+
+                let message = await vscode.window.showInputBox({
+                    prompt: `Enter reasoning (Optional)`
+                });
+
+                selected.subTask.setManualGrade(intPointsGiven, message);
+            }
+            
+            gradingTree.refresh();
+        });
     
         vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', project.id);
     });

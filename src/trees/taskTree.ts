@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
-import { Course } from '../../api/course';
-import { Project } from '../../api/project';
-import { Task } from '../../api/task';
+import { Course } from '../api/course';
+import { Project } from '../api/project';
+import { Task } from '../api/task';
 
 
-export class GradingTree implements vscode.TreeDataProvider<TaskItem | ProjectItem> {
+export class TaskTree implements vscode.TreeDataProvider<TaskItem | ProjectItem> {
 
 
     public constructor(private course : Course, private tasks : Task[])
@@ -44,7 +44,6 @@ class ProjectItem extends vscode.TreeItem {
         super({
             label: project.repo_name,
         }, vscode.TreeItemCollapsibleState.None);
-        this.resourceUri = vscode.Uri.parse("/aUserHere");
         this.command = {
             command: "scalableteaching.openProject",
             title: "Open Project",
@@ -52,13 +51,5 @@ class ProjectItem extends vscode.TreeItem {
         };
         let test : vscode.ThemeIcon = new vscode.ThemeIcon("account");
         this.iconPath = test;
-
-        
-
     }
-    /*this.command = {
-            "command": "scalableteaching.openCourse",
-            "title": "Videregående Objecktor",
-            "arguments": [1]
-        };*/
 }
