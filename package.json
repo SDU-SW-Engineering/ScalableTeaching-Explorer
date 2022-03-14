@@ -11,7 +11,8 @@
 	],
 	"activationEvents": [
 		"onView:scalable",
-		"onCommand:scalableteaching.openCourse"
+		"onCommand:scalableteaching.openCourse",
+		"onCommand:scalableteaching.signOut"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -23,7 +24,7 @@
 			},
 			{
 				"command": "scalableteaching.signOut",
-				"title": "Sign out"
+				"title": "Sign out of Scalable Teaching"
 			},
 			{
 				"command": "scalableteaching.openCourse",
@@ -36,6 +37,18 @@
 			{
 				"command": "scalabeteaching.openFile",
 				"title": "Open File..."
+			},
+			{
+				"command": "scalableteaching.submitGradings",
+				"title": "Submit Gradings...",
+				"icon": "$(check)",
+				"enablement": "scalableteaching.openedProject != false"
+			},
+			{
+				"command": "scalableteaching.discardGradings",
+				"title": "Discard Gradings...",
+				"icon": "$(close)",
+				"enablement": "scalableteaching.openedProject != false"
 			}
 		],
 		"viewsContainers": {
@@ -68,7 +81,8 @@
 				{
 					"id": "scalable.feedback.list",
 					"name": "Feedback",
-					"contextualTitle": "ScalableTeaching"
+					"contextualTitle": "ScalableTeaching",
+					"when": "scalableteaching.openedProject == false && scalableteaching.authenticated"
 				}
 			]
 		},
@@ -87,7 +101,14 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "scalableteaching.signOut"
+					"command": "scalableteaching.discardGradings",
+					"group": "navigation",
+					"when": "view == scalable.project.grading"
+				},
+				{
+					"command": "scalableteaching.submitGradings",
+					"group": "navigation",
+					"when": "view == scalable.project.grading"
 				}
 			]
 		},

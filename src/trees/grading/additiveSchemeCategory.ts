@@ -6,8 +6,9 @@ export class AdditiveSchemeCategory extends vscode.TreeItem
     public constructor(public subtask : Subtask)
     {
         super(subtask.text, vscode.TreeItemCollapsibleState.Expanded);
-        let selectedGrade = subtask.selectedGrade();
-        this.description = `${selectedGrade === null ? 0 : selectedGrade.points}/${subtask.maxPoints} points`;
+        let currentPoints = subtask.currentPoints();
+        let maxPoints = subtask.guides.map<number>(x => x.points).reduce((a,b) => a+b);
+        this.description = `${currentPoints}/${maxPoints} points`;
     }
 }
 

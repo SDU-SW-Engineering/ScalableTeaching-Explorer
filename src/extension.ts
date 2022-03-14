@@ -10,6 +10,7 @@ import axios from 'axios';
 import openProject from './commands/openProject';
 import server from './configuration/server';
 import openFile from './commands/openFile';
+import toggleGrade from './commands/toggleGrade';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -25,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 
 	vscode.window.registerFileDecorationProvider(new SelectedGrade);
-
+	vscode.window.registerFileDecorationProvider(new NotSelectedGrade);
 	vscode.workspace.registerTextDocumentContentProvider("scalable", new DocumentProvider);
 
 
@@ -67,6 +68,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('scalableteaching.openCourse', openCourse);
 	vscode.commands.registerCommand('scalableteaching.openProject', openProject);
 	vscode.commands.registerCommand('scalableteaching.openFile', openFile);
+	vscode.commands.registerCommand('scalableteaching.toggleGrade', toggleGrade);
 
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));
@@ -93,5 +95,16 @@ class SelectedGrade implements vscode.FileDecorationProvider {
 			};
 		}
 	}
+}
 
+class NotSelectedGrade implements vscode.FileDecorationProvider {
+	onDidChangeFileDecorations?: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined;
+	provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
+		const showCountFor = "/notSelectedGrade";
+		if (uri.path === showCountFor) {
+			return {
+				color: new vscode.ThemeColor("gitDecoration.deletedResourceForeground"),
+			};
+		}
+	}
 }

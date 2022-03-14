@@ -62,6 +62,10 @@ export default class Subtask {
 
     public currentPoints() : number
     {
+        let selectedGrades = this.selectedGrades();
+
+        if(selectedGrades.length === 0)
+            return 0;
         return this.selectedGrades().map<number>(x => x.points).reduce((x, y) => x + y);
     }
 }

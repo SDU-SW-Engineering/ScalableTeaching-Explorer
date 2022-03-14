@@ -6,10 +6,10 @@ import GradingScheme from '../grading/gradingScheme';
 import Subtask from '../grading/subtask';
 import SubtaskGuide from '../grading/subtaskGuide';
 import { FileExplorer } from '../trees/fileExplorer';
-import { Guideline } from '../trees/grading/selectiveGuideline';
 import { SelectiveGuidelineTree } from '../trees/grading/selectiveGuidelineTree';
-import { ManualEntry } from '../trees/grading/selectiveManualEntry';
+import { ManualEntry } from '../trees/grading/ManualEntry';
 import { AdditiveGuidelineTree } from '../trees/grading/additiveGuidelineTree';
+import { SelectiveGuideline } from '../trees/grading/selectiveGuideline';
 
 export default function(project : Project, courseId : number)
 {
@@ -47,10 +47,10 @@ export default function(project : Project, courseId : number)
         });
 
 
-        gradingView.onDidChangeSelection(async e => {
+        /*gradingView.onDidChangeSelection(async e => {
             let selected = e.selection[0];
 
-            if (selected instanceof Guideline)
+            if (selected instanceof SelectiveGuideline)
                 selected.guide.select();
             if (selected instanceof ManualEntry)
             {
@@ -73,7 +73,7 @@ export default function(project : Project, courseId : number)
             }
             
             gradingTree.refresh();
-        });
+        });*/
     
         vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', project.id);
     });

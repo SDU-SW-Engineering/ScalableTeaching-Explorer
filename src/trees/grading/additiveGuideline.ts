@@ -1,16 +1,23 @@
 import * as vscode from 'vscode';
 import Subtask from '../../grading/subtask';
 import SubtaskGuide from '../../grading/subtaskGuide';
+import { AdditiveGuidelineTree } from './additiveGuidelineTree';
 
 export class AdditiveGuideline extends vscode.TreeItem
 {
-    public constructor(public guide : SubtaskGuide)
+    public constructor(public guide : SubtaskGuide, private treeProvider : AdditiveGuidelineTree)
     {
         super(guide.text, vscode.TreeItemCollapsibleState.None);
         this.description = guide.points + " pts";
 
-        this.resourceUri = guide.selected ? vscode.Uri.parse("/selectedGrade") : undefined;
-        let test : vscode.ThemeIcon = new vscode.ThemeIcon("check");
-        this.iconPath = guide.selected ? test : undefined;
+        this.resourceUri = guide.selected ? vscode.Uri.parse("/selectedGrade") : vscode.Uri.parse("/notSelectedGrade");
+        let icon = guide.selected ? new vscode.ThemeIcon("check") : new vscode.ThemeIcon("close");
+        this.iconPath = icon;
+
+        this.command = {
+            command: "scalableteaching.toggleGrade",
+            title: "Toggle Grade",
+            arguments: [this.guide, this.treeProvider],
+        };
     }
 }

@@ -26,7 +26,7 @@ export class AdditiveGuidelineTree implements vscode.TreeDataProvider<vscode.Tre
         if (element === undefined)
             return this.schema.subtasks.map(s => new AdditiveSchemeCategory(s));
         if (element instanceof AdditiveSchemeCategory)
-            return [...element.subtask.guides.map(guide => new AdditiveGuideline(guide))];
+            return [...element.subtask.guides.map(guide => new AdditiveGuideline(guide, this))];
         
         return [];
     }
