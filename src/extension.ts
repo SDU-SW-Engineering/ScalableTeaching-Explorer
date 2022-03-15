@@ -11,6 +11,8 @@ import openProject from './commands/openProject';
 import server from './configuration/server';
 import openFile from './commands/openFile';
 import toggleGrade from './commands/toggleGrade';
+import discardGrading from './commands/discardGradings';
+import submitGradings from './commands/submitGradings';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -69,6 +71,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('scalableteaching.openProject', openProject);
 	vscode.commands.registerCommand('scalableteaching.openFile', openFile);
 	vscode.commands.registerCommand('scalableteaching.toggleGrade', toggleGrade);
+	vscode.commands.registerCommand('scalableteaching.discardGradings', discardGrading);
+	vscode.commands.registerCommand('scalableteaching.submitGradings', submitGradings);
 
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));

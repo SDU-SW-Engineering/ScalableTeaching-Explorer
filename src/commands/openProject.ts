@@ -4,6 +4,7 @@ import { Directory } from '../api/directory';
 import { Project } from '../api/project';
 import GradingScheme from '../grading/gradingScheme';
 import Subtask from '../grading/subtask';
+import { Subtask as Guide } from '../api/subtask';
 import SubtaskGuide from '../grading/subtaskGuide';
 import { FileExplorer } from '../trees/fileExplorer';
 import { SelectiveGuidelineTree } from '../trees/grading/selectiveGuidelineTree';
@@ -11,6 +12,7 @@ import { ManualEntry } from '../trees/grading/ManualEntry';
 import { AdditiveGuidelineTree } from '../trees/grading/additiveGuidelineTree';
 import { SelectiveGuideline } from '../trees/grading/selectiveGuideline';
 import  { AxiosError } from 'axios';
+import { TaskGroup } from '../api/taskGroup';
 
 export default function(project : Project, courseId : number)
 {
@@ -21,7 +23,7 @@ export default function(project : Project, courseId : number)
         
         try
         {
-            let response = await axios.get("courses/3/tasks/9/projects/879/tree");//`/courses/${courseId}/tasks/${project.task_id}/projects/${project}/tree`);
+            let response = await axios.get(`/courses/${courseId}/tasks/${project.task_id}/projects/${project.id}/tree`);
           
 
             let projectView = vscode.window.createTreeView('scalable.project.view',{
@@ -29,7 +31,7 @@ export default function(project : Project, courseId : number)
             });
             projectView.title = `Project: ${project.repo_name}`;
     
-            let subtask1 = new Subtask("Syntax", 30);
+           /* let subtask1 = new Subtask("Syntax", 30);
             subtask1.addGuide("Bad", 0);
             subtask1.addGuide("Okay", 10);
             subtask1.addGuide("Good", 30);
@@ -40,10 +42,17 @@ export default function(project : Project, courseId : number)
     
             let scheme = new GradingScheme([
                 subtask1, subtask2
-            ]);
-    
+            ]);*/
+
+            let gradingSchemeResponse = await axios.get<TaskGroup[]>(`/courses/${courseId}/tasks/${project.task_id}/projects/${project.id}/grading-scheme`);
+            let scheme = new GradingScheme();
+            gradingSchemeResponse.data.forEach(taskGroup => {
+                let subtask = new Subtask(taskGroup.group, 50);
+                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.name, guide.points));
+                scheme.subtasks.push(subtask);
+            });
+
             let gradingTree =  new AdditiveGuidelineTree(scheme);// new AdditiveGuidelineTree(scheme);
-    
     
             let gradingView = vscode.window.createTreeView('scalable.project.grading', {
                 treeDataProvider: gradingTree

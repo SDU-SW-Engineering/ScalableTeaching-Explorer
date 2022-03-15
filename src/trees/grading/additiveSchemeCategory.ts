@@ -7,7 +7,7 @@ export class AdditiveSchemeCategory extends vscode.TreeItem
     {
         super(subtask.text, vscode.TreeItemCollapsibleState.Expanded);
         let currentPoints = subtask.currentPoints();
-        let maxPoints = subtask.guides.map<number>(x => x.points).reduce((a,b) => a+b);
+        let maxPoints = subtask.guides.length === 0 ? 0 : subtask.guides.map<number>(x => x.points).reduce((a,b) => a+b);
         this.description = `${currentPoints}/${maxPoints} points`;
     }
 }
