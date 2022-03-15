@@ -31,9 +31,8 @@ export class TaskTree implements vscode.TreeDataProvider<TaskItem | ProjectItem>
 
 class TaskItem extends vscode.TreeItem {
     constructor(public task : Task) {
-        super(task.name, vscode.TreeItemCollapsibleState.Collapsed);
-        this.tooltip = "LOL";
-        this.description = "waddup";
+        super(task.name, vscode.TreeItemCollapsibleState.Expanded);
+        this.description = task.projects.length + " tasks";
     }
 }
 
