@@ -1,4 +1,3 @@
-import internal = require("stream");
 
 export interface Course
 {

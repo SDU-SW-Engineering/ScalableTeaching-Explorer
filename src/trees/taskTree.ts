@@ -12,9 +12,6 @@ export class TaskTree implements vscode.TreeDataProvider<TaskItem | ProjectItem>
     }
 
     getTreeItem(element: TaskItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
-       
-        
-        
         return element;
     }
 
@@ -32,7 +29,8 @@ export class TaskTree implements vscode.TreeDataProvider<TaskItem | ProjectItem>
 class TaskItem extends vscode.TreeItem {
     constructor(public task : Task) {
         super(task.name, vscode.TreeItemCollapsibleState.Expanded);
-        this.description = task.projects.length + " tasks";
+        let completed = task.projects.reduce((total, val) => total + (val.status === "finished" ? 1 : 0), 0);
+        this.description = `${completed}/${task.projects.length} tasks graded`;
     }
 }
 
@@ -43,6 +41,7 @@ class ProjectItem extends vscode.TreeItem {
         super({
             label: project.repo_name,
         }, vscode.TreeItemCollapsibleState.None);
+        this.resourceUri = project.status === "finished" ? vscode.Uri.parse("/selectedGrade") : undefined;
         this.command = {
             command: "scalableteaching.openProject",
             title: "Open Project",

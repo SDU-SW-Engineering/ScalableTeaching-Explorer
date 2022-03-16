@@ -5,5 +5,5 @@ export interface Project
     repo_name: string,
     // eslint-disable-next-line @typescript-eslint/naming-convention
     task_id: number,
-    graded: boolean
+    status: "active" | "finished" | "overdue"
 }

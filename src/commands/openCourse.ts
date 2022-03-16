@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { Course } from '../api/course';
-import { CourseBrowser } from '../courseBrowser';
+import State from '../state';
 
-export default async function(id: number): Promise<void> {
-    let coursePicker = await vscode.window.showQuickPick<CourseItem>(new Promise(async(resolve, reject) => {
+export default async function(): Promise<void> {
+    let coursePicker = await vscode.window.showQuickPick<CourseItem>(new Promise(async(resolve) => {
         let response = await axios.get('courses');
         let options = response.data.map(((course : Course) => new CourseItem(course)));
         resolve(options);
@@ -14,7 +14,7 @@ export default async function(id: number): Promise<void> {
     if (coursePicker === undefined)
         return;
 
-    new CourseBrowser().show(coursePicker.course);
+    State.openCourse(coursePicker.course);
 }
 
 class CourseItem implements vscode.QuickPickItem {

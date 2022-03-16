@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import Subtask from '../../grading/subtask';
 import SubtaskGuide from '../../grading/subtaskGuide';
 import { AdditiveGuidelineTree } from './additiveGuidelineTree';
 

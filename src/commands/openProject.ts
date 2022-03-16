@@ -80,7 +80,7 @@ export default function(project : Project, courseId : number)
                 
                 gradingTree.refresh();
             });*/
-            State.openProject(project, courseId, gradingTree);
+            State.openProject(project, gradingTree);
         }
         catch (error)
         {

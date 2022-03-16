@@ -45,8 +45,9 @@ export default async function () {
     }, async() => {
         try
         {
-            await axios.post(`courses/${State.getCourseid()}/tasks/${project?.task_id}/projects/${project?.id}/submit-grading`, solvedIds);
+            await axios.post(`courses/${State.getCourse()?.id}/tasks/${project?.task_id}/projects/${project?.id}/submit-grading`, solvedIds);
             vscode.window.showInformationMessage(`${project?.repo_name} successfully graded!`);
+            State.refreshCourse();
             State.closeProject();
         }
         catch(error)
