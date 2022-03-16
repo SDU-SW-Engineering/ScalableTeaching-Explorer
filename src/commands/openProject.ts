@@ -1,31 +1,25 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
-import { Directory } from '../api/directory';
 import { Project } from '../api/project';
 import GradingScheme from '../grading/gradingScheme';
 import Subtask from '../grading/subtask';
-import { Subtask as Guide } from '../api/subtask';
-import SubtaskGuide from '../grading/subtaskGuide';
 import { FileExplorer } from '../trees/fileExplorer';
-import { SelectiveGuidelineTree } from '../trees/grading/selectiveGuidelineTree';
-import { ManualEntry } from '../trees/grading/ManualEntry';
 import { AdditiveGuidelineTree } from '../trees/grading/additiveGuidelineTree';
-import { SelectiveGuideline } from '../trees/grading/selectiveGuideline';
 import  { AxiosError } from 'axios';
 import { TaskGroup } from '../api/taskGroup';
+import State from '../state';
 
 export default function(project : Project, courseId : number)
 {
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
         title: "Opening project..."
-    }, async(resolve) => {
+    }, async() => {
         
         try
         {
             let response = await axios.get(`/courses/${courseId}/tasks/${project.task_id}/projects/${project.id}/tree`);
           
-
             let projectView = vscode.window.createTreeView('scalable.project.view',{
                 treeDataProvider: new FileExplorer(project, response.data, courseId)
             });
@@ -48,13 +42,13 @@ export default function(project : Project, courseId : number)
             let scheme = new GradingScheme();
             gradingSchemeResponse.data.forEach(taskGroup => {
                 let subtask = new Subtask(taskGroup.group, 50);
-                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.name, guide.points));
+                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points));
                 scheme.subtasks.push(subtask);
             });
 
             let gradingTree =  new AdditiveGuidelineTree(scheme);// new AdditiveGuidelineTree(scheme);
     
-            let gradingView = vscode.window.createTreeView('scalable.project.grading', {
+            vscode.window.createTreeView('scalable.project.grading', {
                 treeDataProvider: gradingTree
             });
     
@@ -86,8 +80,7 @@ export default function(project : Project, courseId : number)
                 
                 gradingTree.refresh();
             });*/
-        
-            vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', project.id);
+            State.openProject(project, courseId, gradingTree);
         }
         catch (error)
         {

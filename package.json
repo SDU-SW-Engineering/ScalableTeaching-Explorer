@@ -40,13 +40,13 @@
 			},
 			{
 				"command": "scalableteaching.submitGradings",
-				"title": "Submit Gradings...",
+				"title": "Submit Grading",
 				"icon": "$(check)",
 				"enablement": "scalableteaching.openedProject != false"
 			},
 			{
 				"command": "scalableteaching.discardGradings",
-				"title": "Discard Gradings...",
+				"title": "Discard Gradings",
 				"icon": "$(close)",
 				"enablement": "scalableteaching.openedProject != false"
 			}
@@ -56,6 +56,13 @@
 				{
 					"id": "scalable-explorer",
 					"title": "ScalableTeaching",
+					"icon": "media/logo.svg"
+				}
+			],
+			"panel": [
+				{
+					"id": "scalable-grading",
+					"title": "Grading Scheme",
 					"icon": "media/logo.svg"
 				}
 			]
@@ -69,11 +76,6 @@
 					"when": "scalableteaching.authenticated != true"
 				},
 				{
-					"id": "scalable.project.grading",
-					"name": "Grading Scheme",
-					"when": "scalableteaching.openedProject != false"
-				},
-				{
 					"id": "scalable.project.view",
 					"name": "Project",
 					"when": "scalableteaching.openedProject != false"
@@ -83,6 +85,13 @@
 					"name": "Feedback",
 					"contextualTitle": "ScalableTeaching",
 					"when": "scalableteaching.openedProject == false && scalableteaching.authenticated"
+				}
+			],
+			"scalable-grading": [
+				{
+					"id": "scalable.project.grading",
+					"name": "Grading Scheme",
+					"when": "scalableteaching.openedProject != false"
 				}
 			]
 		},

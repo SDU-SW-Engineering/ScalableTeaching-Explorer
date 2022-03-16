@@ -1,9 +1,7 @@
 import * as vscode from 'vscode';
-import { TaskTree } from './trees/taskTree';
 import { DocumentProvider } from './documentProvider';
 import openCourse from './commands/openCourse';
 import signIn from './commands/signIn';
-import { DocumentViewer } from './documentViewer';
 import { ScalableTeachingAuthenticationProvider } from './authProvider';
 import signOut from './commands/signOut';
 import axios from 'axios';
@@ -78,6 +76,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));
 
 	context.subscriptions.push(signInCommand);
+	context.subscriptions.push(signOutCommands);
 }
 
 
@@ -91,7 +90,7 @@ export function deactivate() {
 
 class SelectedGrade implements vscode.FileDecorationProvider {
 	onDidChangeFileDecorations?: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined;
-	provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
+	provideFileDecoration(uri: vscode.Uri): vscode.ProviderResult<vscode.FileDecoration> {
 		const showCountFor = "/selectedGrade";
 		if (uri.path === showCountFor) {
 			return {
@@ -103,7 +102,7 @@ class SelectedGrade implements vscode.FileDecorationProvider {
 
 class NotSelectedGrade implements vscode.FileDecorationProvider {
 	onDidChangeFileDecorations?: vscode.Event<vscode.Uri | vscode.Uri[] | undefined> | undefined;
-	provideFileDecoration(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<vscode.FileDecoration> {
+	provideFileDecoration(uri: vscode.Uri): vscode.ProviderResult<vscode.FileDecoration> {
 		const showCountFor = "/notSelectedGrade";
 		if (uri.path === showCountFor) {
 			return {

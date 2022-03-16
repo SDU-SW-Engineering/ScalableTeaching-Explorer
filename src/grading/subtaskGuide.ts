@@ -4,7 +4,7 @@ export default class SubtaskGuide
 {
     public selected : boolean = false;
 
-    public constructor(public readonly text : string, public readonly points : number,  private subtask : Subtask)
+    public constructor(public readonly id : number, public readonly text : string, public readonly points : number,  private subtask : Subtask)
     {
 
     }

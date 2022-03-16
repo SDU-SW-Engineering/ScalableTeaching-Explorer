@@ -14,7 +14,8 @@
         "curly": ["warn", "multi-or-nest"],
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
-        "semi": "off"
+        "semi": "off",
+        "no-unused-vars": "warn"
     },
     "ignorePatterns": [
         "out",
