@@ -1,70 +1,33 @@
-# scalableteaching README
+# ScalableTeaching Assignment Grading
 
-This is the README for your extension "scalableteaching". After writing up a brief description, we recommend including the following sections.
+This extension collaborates with your [ScalableTeaching web application](https://github.com/SDU-SW-Engineering/ScalableTeaching) and allows teaching assistants, professors, and the like to grade students' code assignments more efficiently.
 
-## Features
+## Benefits
+Grading software manually is __rarely__ fun. Having to grade many students is not only cumbersome, but it can often become hard to keep track of everything. This extension aims to solve this problem by combing grading schemes directly with student files, making it easier to keep track and making it harder to make mistakes stemming from mixing students.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Pseudonyms
+Tasks are hidden behind pseudonyms, meaning grader is unaware of who they are grading.
 
-For example if there is an image subfolder under your extension project workspace:
+## Screenshots
 
-\!\[feature X\]\(images/feature-x.png\)
+![Select course](/assets/select-course.png)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Picking a course available to the authenticated user.
 
-## Requirements
+![Select course](/assets/task-overview.png)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+List of tasks that should be graded. Already graded tasks are green.
 
-## Extension Settings
+![Grading](/assets/grade-student.png)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+The grading view gives an overview of the student's code and an easily togglable list of points that the student can earn. The person grading can thus quickly go through each point and make sure the student fulfills the criteria.
 
-For example:
+## Configuration
 
-This extension contributes the following settings:
+Before the application can be used, the `Server` entry in preferences needs to be set; once done, you should be able to authenticate through the web UI.
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## Usage
 
-## Known Issues
+Your user needs to be tied to a course within your ScalableTeaching instance and has gradings delegated; otherwise, the task list will be empty.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Afterwards simply pick a task and start grading.
