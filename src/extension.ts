@@ -54,27 +54,21 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	});
 
-
-
-
-
-
-
-	/*let view = vscode.window.createTreeView('scalable.courses', {
-		"treeDataProvider": new Courses
-	});
-	//view.title = "Updated!";*/
-
-	vscode.commands.registerCommand('scalableteaching.openCourse', openCourse);
-	vscode.commands.registerCommand('scalableteaching.openProject', openProject);
-	vscode.commands.registerCommand('scalableteaching.openFile', openFile);
-	vscode.commands.registerCommand('scalableteaching.toggleGrade', toggleGrade);
-	vscode.commands.registerCommand('scalableteaching.discardGradings', discardGrading);
-	vscode.commands.registerCommand('scalableteaching.submitGradings', submitGradings);
-
+	let openCourseCommand = vscode.commands.registerCommand('scalableteaching.openCourse', openCourse);
+	let openProjectCommand = vscode.commands.registerCommand('scalableteaching.openProject', openProject);
+	let openFileCommand = vscode.commands.registerCommand('scalableteaching.openFile', openFile);
+	let toggleGradeCommand = vscode.commands.registerCommand('scalableteaching.toggleGrade', toggleGrade);
+	let discardGradingsCommand = vscode.commands.registerCommand('scalableteaching.discardGradings', discardGrading);
+	let submitGradingsCommand = vscode.commands.registerCommand('scalableteaching.submitGradings', submitGradings);
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
 	let signOutCommands = vscode.commands.registerCommand('scalableteaching.signOut', () => signOut(authenticationProvider));
 
+	context.subscriptions.push(openCourseCommand);
+	context.subscriptions.push(openProjectCommand);
+	context.subscriptions.push(openFileCommand);
+	context.subscriptions.push(toggleGradeCommand);
+	context.subscriptions.push(discardGradingsCommand);
+	context.subscriptions.push(submitGradingsCommand);
 	context.subscriptions.push(signInCommand);
 	context.subscriptions.push(signOutCommands);
 }

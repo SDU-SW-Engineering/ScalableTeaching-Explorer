@@ -20,23 +20,16 @@
 			{
 				"command": "scalableteaching.signIn",
 				"title": "ScalableTeaching: sign in",
-				"enablement": "false"
+				"enablement": "scalableteaching.authenticated == false && extension == scalableteaching"
 			},
 			{
 				"command": "scalableteaching.signOut",
-				"title": "Sign out of Scalable Teaching"
+				"title": "ScalableTeaching: sign out",
+				"enablement": "scalableteaching.authenticated == true"
 			},
 			{
 				"command": "scalableteaching.openCourse",
-				"title": "Open Course..."
-			},
-			{
-				"command": "scalabeteaching.openProject",
-				"title": "Open Project..."
-			},
-			{
-				"command": "scalabeteaching.openFile",
-				"title": "Open File..."
+				"title": "Open Course"
 			},
 			{
 				"command": "scalableteaching.submitGradings",
