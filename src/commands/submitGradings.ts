@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios';
 import * as vscode from 'vscode';
 import State from '../state';
 import { AdditiveSchemeCategory } from '../trees/grading/additiveSchemeCategory';
@@ -11,6 +12,11 @@ export default async function () {
     if (submit !== "Yes")
         return;
 
+    let project = State.getOpenedProject();
+
+    if (project === null)
+        return;
+    
     let tree = State.getGuidelines();
 
     if (tree === null)
@@ -35,6 +41,23 @@ export default async function () {
 
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: "Opening project..."
-    }, async() => 'Submitting grade...');
+        title: "Submitting grade..."
+    }, async() => {
+        try
+        {
+            await axios.post(`courses/${State.getCourseid()}/tasks/${project?.task_id}/projects/${project?.id}/submit-grading`, solvedIds);
+            vscode.window.showInformationMessage(`${project?.repo_name} successfully graded!`);
+            State.closeProject();
+        }
+        catch(error)
+        {
+            const axiosError = error as AxiosError;
+            if (axiosError.response === undefined)
+                return;
+            
+            vscode.window.showErrorMessage(axiosError.response.data);
+            return;
+            
+        }
+    });
 }
