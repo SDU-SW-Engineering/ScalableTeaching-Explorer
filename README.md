@@ -10,15 +10,15 @@ Tasks are hidden behind pseudonyms, meaning grader is unaware of who they are gr
 
 ## Screenshots
 
-![Select course](/assets/select-course.png)
+![Select course](assets/select-course.png)
 
 Picking a course available to the authenticated user.
 
-![Select course](/assets/task-overview.png)
+![Select course](assets/task-overview.png)
 
 List of tasks that should be graded. Already graded tasks are green.
 
-![Grading](/assets/grade-student.png)
+![Grading](assets/grade-student.png)
 
 The grading view gives an overview of the student's code and an easily togglable list of points that the student can earn. The person grading can thus quickly go through each point and make sure the student fulfills the criteria.
 
