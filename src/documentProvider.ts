@@ -20,10 +20,19 @@ export class DocumentProvider implements vscode.TextDocumentContentProvider {
             return null;
         }
 
-        let response = await axios.post(url, {
-            file: file
-        });//`/courses/${courseId}/tasks/${project.task_id}/projects/${project}/tree`);
-        return response.data.file;
+        try
+        {
+            let response = await axios.post(url, {
+                file: file
+            });
+            return response.data.file;
+        }
+        catch (error)
+        {
+            console.log(error);
+            return null;
+        }
+        
     }
 
 }

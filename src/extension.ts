@@ -11,6 +11,7 @@ import openFile from './commands/openFile';
 import toggleGrade from './commands/toggleGrade';
 import discardGrading from './commands/discardGradings';
 import submitGradings from './commands/submitGradings';
+import * as https from 'https';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -29,7 +30,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerFileDecorationProvider(new NotSelectedGrade);
 	vscode.workspace.registerTextDocumentContentProvider("scalable", new DocumentProvider);
 
-
+	https.globalAgent.options.rejectUnauthorized = false;
 	axios.interceptors.request.use(async (request) => {
 		const serverName = server();
 		if (serverName === null) {
