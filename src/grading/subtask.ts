@@ -13,8 +13,8 @@ export default class Subtask {
 
     }
 
-    public addGuide(id : number, text: string, points: number) {
-        this.guides.push(new SubtaskGuide(id, text, points, this));
+    public addGuide(id : number, text: string, points: number, selected : boolean = false) {
+        this.guides.push(new SubtaskGuide(id, text, points, selected,  this));
     }
 
     public setManualGrade(points: number, message: string | null = null) {

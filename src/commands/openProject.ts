@@ -42,7 +42,7 @@ export default function(project : Project, courseId : number)
             let scheme = new GradingScheme();
             gradingSchemeResponse.data.forEach(taskGroup => {
                 let subtask = new Subtask(taskGroup.group, 50);
-                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points));
+                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points, guide.isCompleted ?? false));
                 scheme.subtasks.push(subtask);
             });
 
