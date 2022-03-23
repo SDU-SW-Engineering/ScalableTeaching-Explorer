@@ -11,10 +11,12 @@ export default class State {
     private static grading: null | AdditiveGuidelineTree = null;
     
     private static course: null | Course = null;
+    private static startTime: string | null = null;
 
     public static openProject(project: Project, grading: AdditiveGuidelineTree) {
         this.openedProject = project;
         this.grading = grading;
+        this.startTime = new Date().toISOString();
         vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', project.id);
     }
 
@@ -50,6 +52,7 @@ export default class State {
     public static closeProject() {
         this.openedProject = null;
         this.grading = null;
+        this.startTime = null;
         vscode.commands.executeCommand('setContext', 'scalableteaching.openedProject', null);
     }
 
@@ -72,5 +75,9 @@ export default class State {
 
     public static getCourse(): null | Course {
         return this.course;
+    }
+
+    public static getStartTime(): null | String {
+        return this.startTime;
     }
 }
