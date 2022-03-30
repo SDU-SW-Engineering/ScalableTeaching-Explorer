@@ -1,16 +1,31 @@
+import { match } from 'assert';
 import * as vscode from 'vscode';
 import SubtaskGuide from '../../grading/subtaskGuide';
+import { GradeType } from '../gradeType';
 import { AdditiveGuidelineTree } from './additiveGuidelineTree';
 
 export class AdditiveGuideline extends vscode.TreeItem
 {
-    public constructor(public guide : SubtaskGuide, private treeProvider : AdditiveGuidelineTree)
+    public constructor(public guide : SubtaskGuide, public treeProvider : AdditiveGuidelineTree)
     {
-        super(guide.text, vscode.TreeItemCollapsibleState.None);
-        this.description = guide.points + " pts";
+        super(guide.text, guide.comment == null ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded);
+        this.description = `${guide.getPoints()}/${guide.maxPoints}  pts`;
+        this.contextValue = guide.comment == null ? "scalableTeaching.additiveGradingItem" : "scalableTeaching.additiveGradingItemWithComment";
 
-        this.resourceUri = guide.selected ? vscode.Uri.parse("/selectedGrade") : vscode.Uri.parse("/notSelectedGrade");
-        let icon = guide.selected ? new vscode.ThemeIcon("check") : new vscode.ThemeIcon("close");
+        switch(guide.gradeType())
+        {
+            case GradeType.Full:
+                this.resourceUri = vscode.Uri.parse("/selectedGrade");
+                break;
+            case GradeType.Partial:
+                this.resourceUri =  vscode.Uri.parse("/partialSelectedGrade")
+                break;
+            case GradeType.None:
+                this.resourceUri = vscode.Uri.parse("/notSelectedGrade")
+                break;
+        }
+
+        let icon = guide.gradeType() == GradeType.None ? new vscode.ThemeIcon("close") : new vscode.ThemeIcon("check");
         this.iconPath = icon;
 
         this.command = {

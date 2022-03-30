@@ -1,3 +1,4 @@
+import { GradeType } from "../trees/gradeType";
 import { Grade } from "./grade";
 import SubtaskGuide from "./subtaskGuide";
 
@@ -7,14 +8,13 @@ export default class Subtask {
 
     public constructor(
         public readonly text: string,
-        public readonly maxPoints: number,
         public guides: SubtaskGuide[] = []
     ) {
 
     }
 
-    public addGuide(id : number, text: string, points: number, selected : boolean = false) {
-        this.guides.push(new SubtaskGuide(id, text, points, selected,  this));
+    public addGuide(id : number, text: string, maxPoints: number, pointsGiven : number) {
+        this.guides.push(new SubtaskGuide(id, text, maxPoints, pointsGiven,  this));
     }
 
     public setManualGrade(points: number, message: string | null = null) {
@@ -29,7 +29,7 @@ export default class Subtask {
 
     public unselectAll() {
         this.manual = null;
-        this.guides.forEach(s => s.selected = false);
+        this.guides.forEach(s => s.setPoints(0));
     }
 
     public isManual(): boolean {
@@ -40,10 +40,10 @@ export default class Subtask {
         if (this.manual !== null)
             return this.manual;
 
-        let selected = this.guides.find(x => x.selected);
+        let selected = this.guides.find(x => x.gradeType() === GradeType.Full || x.gradeType() === GradeType.Partial);
         if (selected !== undefined) {
             return {
-                points: selected.points,
+                points: selected.maxPoints,
                 message: selected.text
             };
         }
@@ -52,9 +52,9 @@ export default class Subtask {
     }
 
     public selectedGrades(): Grade[] {
-        return this.guides.filter(x => x.selected).map(x => {
+        return this.guides.filter(x => x.gradeType() === GradeType.Full || x.gradeType() === GradeType.Partial).map(x => {
             return <Grade> {
-                points: x.points,
+                points: x.getPoints(),
                 message: x.text
             };
         });

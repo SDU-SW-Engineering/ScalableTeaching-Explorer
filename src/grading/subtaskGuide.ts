@@ -1,21 +1,49 @@
+import { Comment } from "../trees/commentItem";
+import { GradeType } from "../trees/gradeType";
 import Subtask from "./subtask";
 
 export default class SubtaskGuide
 {
+    public comment : Comment | null = null;
 
     public constructor(
         public readonly id : number,
         public readonly text : string,
-        public readonly points : number,
-        public selected : boolean = false,
+        public readonly maxPoints : number,
+        public points : number,
         private subtask : Subtask)
     {
+        
+    }
 
+    public setPoints(points : number)
+    {
+        if (points > this.maxPoints)
+            throw new Error("Points can't be more than max points.");
+        this.points = points;
+    }
+
+    public getPoints()
+    {
+        return this.points;
     }
 
     public select() : void
     {
         this.subtask.unselectAll();
-        this.selected = true;
+    }
+
+    public hasMaxPoints() : boolean
+    {
+        return this.points == this.maxPoints;
+    }
+
+    public gradeType() : GradeType
+    {
+        if (this.points == 0)
+            return GradeType.None;
+        if (this.hasMaxPoints())
+            return GradeType.Full;
+        return GradeType.Partial;
     }
 }

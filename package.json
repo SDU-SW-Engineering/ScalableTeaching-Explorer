@@ -53,6 +53,21 @@
 				"title": "Discard Gradings",
 				"icon": "$(close)",
 				"enablement": "scalableteaching.openedProject != false"
+			},
+			{
+				"command": "scalableteaching.setPartialGrade",
+				"title": "Assign Partial Grade",
+				"enablement": "viewItem == scalableTeaching.additiveGradingItem || viewItem == scalableTeaching.additiveGradingItemWithComment"
+			},
+			{
+				"command": "scalableteaching.addComment",
+				"title": "Add Comment",
+				"enablement": "viewItem == scalableTeaching.additiveGradingItem"
+			},
+			{
+				"command": "scalableteaching.removeComment",
+				"title": "Remove Comment",
+				"enablement": "viewItem == scalableTeaching.additiveGradingItemWithComment || viewItem == scalableTeaching.commentItem"
 			}
 		],
 		"viewsContainers": {
@@ -122,6 +137,20 @@
 					"command": "scalableteaching.submitGradings",
 					"group": "navigation",
 					"when": "view == scalable.project.grading"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "scalableteaching.setPartialGrade",
+					"when": "viewItem == scalableTeaching.additiveGradingItem || viewItem = scalableTeaching.additiveGradingItemWithComment"
+				},
+				{
+					"command": "scalableteaching.addComment",
+					"when": "viewItem == scalableTeaching.additiveGradingItem"
+				},
+				{
+					"command": "scalableteaching.removeComment",
+					"when": "viewItem == scalableTeaching.additiveGradingItemWithComment || viewItem == scalableTeaching.commentItem"
 				}
 			]
 		},

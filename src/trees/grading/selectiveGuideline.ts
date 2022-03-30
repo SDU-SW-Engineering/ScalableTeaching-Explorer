@@ -7,10 +7,10 @@ export class SelectiveGuideline extends vscode.TreeItem
     public constructor(public guide : SubtaskGuide)
     {
         super(guide.text, vscode.TreeItemCollapsibleState.None);
-        this.description = guide.points + " pts";
+        //this.description = guide.points + " pts";
 
-        this.resourceUri = guide.selected ? vscode.Uri.parse("/selectedGrade") : undefined;
+        //this.resourceUri = guide.selected ? vscode.Uri.parse("/selectedGrade") : undefined;
         let test : vscode.ThemeIcon = new vscode.ThemeIcon("check");
-        this.iconPath = guide.selected ? test : undefined;
+        //this.iconPath = guide.selected ? test : undefined;
     }
 }

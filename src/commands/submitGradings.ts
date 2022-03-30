@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import * as vscode from 'vscode';
 import State from '../state';
+import { GradeType } from '../trees/gradeType';
 import { AdditiveSchemeCategory } from '../trees/grading/additiveSchemeCategory';
 
 
@@ -34,7 +35,7 @@ export default async function () {
         
         let guideline = x as AdditiveSchemeCategory;
     
-        let solveGroupIds = guideline.subtask.guides.filter(x => x.selected).map(x => x.id);
+        let solveGroupIds = guideline.subtask.guides.filter(x => x.gradeType() == GradeType.Full || x.gradeType() == GradeType.Partial).map(x => x.id);
         solvedIds.push(...solveGroupIds);
     });
 

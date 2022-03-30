@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import GradingScheme from '../../grading/gradingScheme';
+import { Comment } from '../commentItem';
 import { AdditiveGuideline } from './additiveGuideline';
 import { AdditiveSchemeCategory } from './additiveSchemeCategory';
 
@@ -27,6 +28,10 @@ export class AdditiveGuidelineTree implements vscode.TreeDataProvider<vscode.Tre
             return this.schema.subtasks.map(s => new AdditiveSchemeCategory(s));
         if (element instanceof AdditiveSchemeCategory)
             return [...element.subtask.guides.map(guide => new AdditiveGuideline(guide, this))];
+
+        if (element instanceof AdditiveGuideline && element.guide.comment != null) {
+            return [element.guide.comment];
+        }
         
         return [];
     }

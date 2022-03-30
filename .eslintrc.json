@@ -9,7 +9,13 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/naming-convention": "warn",
+        "@typescript-eslint/naming-convention": [
+            "warning",
+            {
+                "selector": "variable",
+                "format": ["camelCase", "UPPER_CASE", "PascalCase"]
+            }
+        ],
         "@typescript-eslint/semi": "warn",
         "curly": ["warn", "multi-or-nest"],
         "eqeqeq": "warn",

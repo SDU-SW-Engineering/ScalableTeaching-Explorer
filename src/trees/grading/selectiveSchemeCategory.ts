@@ -7,7 +7,7 @@ export class SelectiveSchemeCategory extends vscode.TreeItem
     {
         super(subtask.text, vscode.TreeItemCollapsibleState.Expanded);
         let selectedGrade = subtask.selectedGrade();
-        this.description = `${selectedGrade === null ? 0 : selectedGrade.points}/${subtask.maxPoints} points`;
+        //sthis.description = `${selectedGrade === null ? 0 : selectedGrade.points}/${subtask.maxPoints} points`;
     }
 }
 

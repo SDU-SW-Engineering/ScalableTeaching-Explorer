@@ -41,8 +41,8 @@ export default function(project : Project, courseId : number)
             let gradingSchemeResponse = await axios.get<TaskGroup[]>(`/courses/${courseId}/tasks/${project.task_id}/projects/${project.id}/grading-scheme`);
             let scheme = new GradingScheme();
             gradingSchemeResponse.data.forEach(taskGroup => {
-                let subtask = new Subtask(taskGroup.group, 50);
-                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points, guide.isCompleted ?? false));
+                let subtask = new Subtask(taskGroup.group);
+                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points, guide.isCompleted ? guide.points : 0));
                 scheme.subtasks.push(subtask);
             });
 
