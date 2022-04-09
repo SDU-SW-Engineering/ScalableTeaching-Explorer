@@ -42,12 +42,13 @@ export default function(project : Project, courseId : number)
             let scheme = new GradingScheme();
             gradingSchemeResponse.data.forEach(taskGroup => {
                 let subtask = new Subtask(taskGroup.group);
-                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points, guide.isCompleted ? guide.points : 0));
+                taskGroup.tasks.forEach(guide => subtask.addGuide(guide.id, guide.name, guide.points, guide.pointsAcquired, guide.comments.map(x => x.text)));
                 scheme.subtasks.push(subtask);
             });
 
-            let gradingTree =  new AdditiveGuidelineTree(scheme);// new AdditiveGuidelineTree(scheme);
-    
+            let gradingTree =  new AdditiveGuidelineTree(scheme);
+            
+            State.setGuidelines(gradingTree);
             vscode.window.createTreeView('scalable.project.grading', {
                 treeDataProvider: gradingTree
             });

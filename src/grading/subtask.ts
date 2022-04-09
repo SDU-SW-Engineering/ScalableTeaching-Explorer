@@ -1,3 +1,4 @@
+import { Comment } from "../trees/commentItem";
 import { GradeType } from "../trees/gradeType";
 import { Grade } from "./grade";
 import SubtaskGuide from "./subtaskGuide";
@@ -13,8 +14,11 @@ export default class Subtask {
 
     }
 
-    public addGuide(id : number, text: string, maxPoints: number, pointsGiven : number) {
-        this.guides.push(new SubtaskGuide(id, text, maxPoints, pointsGiven,  this));
+    public addGuide(id : number, text: string, maxPoints: number, pointsGiven : number|null, comments : string[] = []) {
+        let guide = new SubtaskGuide(id, text, maxPoints, pointsGiven,  this);
+        if (comments.length > 0)
+            guide.setComment(comments[0]);
+        this.guides.push(guide);
     }
 
     public setManualGrade(points: number, message: string | null = null) {

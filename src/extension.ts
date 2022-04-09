@@ -13,6 +13,8 @@ import discardGrading from './commands/discardGradings';
 import submitGradings from './commands/submitGradings';
 import * as https from 'https';
 import setPartialGrade from './commands/setPartialGrade';
+import removeComment from './commands/removeComment';
+import addComment from './commands/addComment';
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -61,6 +63,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	let openFileCommand = vscode.commands.registerCommand('scalableteaching.openFile', openFile);
 	let toggleGradeCommand = vscode.commands.registerCommand('scalableteaching.toggleGrade', toggleGrade);
 	let setPartialGradeCommand = vscode.commands.registerCommand('scalableteaching.setPartialGrade', setPartialGrade);
+	let removeCommentCommand = vscode.commands.registerCommand('scalableteaching.removeComment', removeComment);
+	let addCommentCommand = vscode.commands.registerCommand('scalableteaching.addComment', addComment);
 	let discardGradingsCommand = vscode.commands.registerCommand('scalableteaching.discardGradings', discardGrading);
 	let submitGradingsCommand = vscode.commands.registerCommand('scalableteaching.submitGradings', submitGradings);
 	let signInCommand = vscode.commands.registerCommand('scalableteaching.signIn', () => signIn(context));
@@ -75,6 +79,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(signInCommand);
 	context.subscriptions.push(signOutCommands);
 	context.subscriptions.push(setPartialGradeCommand);
+	context.subscriptions.push(removeCommentCommand);
+	context.subscriptions.push(addCommentCommand);
 }
 
 

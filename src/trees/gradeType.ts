@@ -1,5 +1,6 @@
 export enum GradeType {
     Partial,
     Full,
-    None
+    None,
+    Ungraded
 }

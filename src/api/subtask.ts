@@ -1,8 +1,11 @@
+import { Comment } from "../trees/commentItem";
+
 export interface Subtask
 {
     id: number,
     points: number,
     name: string,
     alias: string|null,
-    isCompleted: boolean|null
+    pointsAcquired: null|number,
+    comments: Comment[]
 }

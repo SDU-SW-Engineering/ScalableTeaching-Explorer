@@ -9,24 +9,27 @@ export class AdditiveGuideline extends vscode.TreeItem
     public constructor(public guide : SubtaskGuide, public treeProvider : AdditiveGuidelineTree)
     {
         super(guide.text, guide.comment == null ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded);
-        this.description = `${guide.getPoints()}/${guide.maxPoints}  pts`;
+        this.description = guide.getPoints() == null ? "Ungraded" : `${guide.getPoints()}/${guide.maxPoints}  pts`;
         this.contextValue = guide.comment == null ? "scalableTeaching.additiveGradingItem" : "scalableTeaching.additiveGradingItemWithComment";
 
         switch(guide.gradeType())
         {
             case GradeType.Full:
                 this.resourceUri = vscode.Uri.parse("/selectedGrade");
+                this.iconPath = new vscode.ThemeIcon("check");
                 break;
             case GradeType.Partial:
                 this.resourceUri =  vscode.Uri.parse("/partialSelectedGrade")
+                this.iconPath = new vscode.ThemeIcon("check");
                 break;
             case GradeType.None:
                 this.resourceUri = vscode.Uri.parse("/notSelectedGrade")
+                this.iconPath = new vscode.ThemeIcon("close");
                 break;
+            case GradeType.Ungraded:
+                this.iconPath = new vscode.ThemeIcon("warning");
+                this.resourceUri = undefined;
         }
-
-        let icon = guide.gradeType() == GradeType.None ? new vscode.ThemeIcon("close") : new vscode.ThemeIcon("check");
-        this.iconPath = icon;
 
         this.command = {
             command: "scalableteaching.toggleGrade",

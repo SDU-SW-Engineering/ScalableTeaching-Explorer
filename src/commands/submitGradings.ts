@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import * as vscode from 'vscode';
+import SubmissionGrade from '../api/submissionGrade';
 import State from '../state';
 import { GradeType } from '../trees/gradeType';
 import { AdditiveSchemeCategory } from '../trees/grading/additiveSchemeCategory';
@@ -28,17 +29,20 @@ export default async function () {
     if (children === null || children === undefined || children.length === 0)
         return;
 
-    let solvedIds : number[] = [];
+    let allTasks : SubmissionGrade[] = [];
     children.forEach(x => {
         if (x instanceof AdditiveSchemeCategory === false)
             return;
         
         let guideline = x as AdditiveSchemeCategory;
     
-        let solveGroupIds = guideline.subtask.guides.filter(x => x.gradeType() == GradeType.Full || x.gradeType() == GradeType.Partial).map(x => x.id);
-        solvedIds.push(...solveGroupIds);
+        let tasks = guideline.subtask.guides.filter(x => x.points != null).map(subtask => <SubmissionGrade> {
+            subtaskId: subtask.id,
+            points: subtask.getPoints() == subtask.maxPoints ? subtask.maxPoints : subtask.getPoints(),
+            comment: subtask.comment == null ? null : subtask.comment.text
+        });
+        allTasks.push(...tasks);
     });
-
 
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
@@ -47,7 +51,7 @@ export default async function () {
         try
         {
             await axios.post(`courses/${State.getCourse()?.id}/tasks/${project?.task_id}/projects/${project?.id}/submit-grading`, {
-                tasks: solvedIds,
+                tasks: allTasks,
                 startedAt: State.getStartTime(),
                 endedAt: new Date().toISOString()
             });
@@ -61,7 +65,9 @@ export default async function () {
             if (axiosError.response === undefined)
                 return;
             
-            vscode.window.showErrorMessage(axiosError.response.data);
+            vscode.window.showErrorMessage(axiosError.response.data, {
+                modal: true
+            });
             return;
             
         }

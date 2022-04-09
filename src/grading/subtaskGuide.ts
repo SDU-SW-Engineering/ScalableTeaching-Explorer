@@ -10,10 +10,9 @@ export default class SubtaskGuide
         public readonly id : number,
         public readonly text : string,
         public readonly maxPoints : number,
-        public points : number,
+        public points : number|null,
         private subtask : Subtask)
     {
-        
     }
 
     public setPoints(points : number)
@@ -40,10 +39,17 @@ export default class SubtaskGuide
 
     public gradeType() : GradeType
     {
+        if (this.points == null)
+            return GradeType.Ungraded;
         if (this.points == 0)
             return GradeType.None;
         if (this.hasMaxPoints())
             return GradeType.Full;
         return GradeType.Partial;
+    }
+
+    public setComment(comment : string)
+    {
+        this.comment = new Comment(comment, this);
     }
 }
