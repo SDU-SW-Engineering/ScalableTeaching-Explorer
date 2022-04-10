@@ -142,7 +142,7 @@
 			"view/item/context": [
 				{
 					"command": "scalableteaching.setPartialGrade",
-					"when": "viewItem == scalableTeaching.additiveGradingItem || viewItem = scalableTeaching.additiveGradingItemWithComment"
+					"when": "viewItem == scalableTeaching.additiveGradingItem || viewItem == scalableTeaching.additiveGradingItemWithComment"
 				},
 				{
 					"command": "scalableteaching.addComment",

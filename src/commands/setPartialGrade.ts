@@ -11,6 +11,9 @@ export default async function (guideline: AdditiveGuideline) {
             if (isNaN(number))
                 return "Not a number";
 
+            if (number % 1 != 0)
+                return "Decimals not allowed"
+
             const maxPoints = guideline.guide.maxPoints;
             if (number > maxPoints || number < 0)
                 return `Value should be between 0 to ${maxPoints}`;
